@@ -1,0 +1,141 @@
+{% extends "index.html" %}
+{% block content %}
+
+<!-- NAVIGATION -->
+<nav id="navigation">
+        <!-- container -->
+        <div class="container">
+                <!-- responsive-nav -->
+                <div id="responsive-nav">
+                        <!-- NAV -->
+                        <ul class="main-nav nav navbar-nav">
+                                <li class=><a href="#">Home</a></li>
+                                <li><a href="{% url 'store' %}">All</a></li>
+                                <li><a href="{% url 'laptops' %}">Laptops</a></li>
+                                <li><a href="{% url 'smartphones' %}">Smartphones</a></li>
+                        </ul>
+                        <!-- /NAV -->
+                </div>
+                <!-- /responsive-nav -->
+        </div>
+        <!-- /container -->
+{% if messages %}
+                        {% for message in messages %}
+                        <div class="alert alert-danger fade in">
+                                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                {{ message }}
+                              </div>
+                        {% endfor %}
+                {% endif %}
+
+
+<!-- BREADCRUMB -->
+<div id="breadcrumb" class="section">
+        <!-- container -->
+        <div class="container">
+                <!-- row -->
+                <div class="row">
+                        <div class="col-md-12">
+                                <ul class="breadcrumb-tree">
+                                        <li><a href="#">Home</a></li>
+                                        <li class="active">Login/Register</li>
+                                </ul>
+                        </div>
+                </div>
+                <!-- /row -->
+        </div>
+
+        <!-- /container -->
+</div>
+<!-- /BREADCRUMB -->
+        <!-- SECTION -->
+        <div class="section" style="padding-top: 0;">
+                <!-- container -->
+                        <!-- row -->
+                        <div class="row ">
+                                <!-- Product tab -->
+					<div class="col-md-12">
+						<div id="product-tab" style="margin-top: 0;">
+							<!-- product tab nav -->
+							<ul class="tab-nav">
+								<li class="active"><a data-toggle="tab" href="#tab1">Register</a></li>
+								<li><a data-toggle="tab" href="#tab2">Login</a></li>
+							</ul>
+							<!-- /product tab nav -->
+
+							<!-- product tab content -->
+							<div class="tab-content">
+								<!-- tab1  -->
+								<div id="tab1" class="tab-pane fade in active">
+									<div class="row">
+										
+                                                                                        <div class="col-md-6 col-md-push-4 col-lg-4 ">
+                                                                                                <form method="POST">
+                                                                                                        {% csrf_token %}
+                                                                                                        {{ form.as_p }}
+                                                                                            <center><button type="submit" class="primary-btn">Register</button></center>
+                                                                                          </form>
+                                                                                        </div>
+										
+									</div>
+								</div>
+								<!-- /tab1  -->
+                                                                
+								<!-- tab2  -->
+								<div id="tab2" class="tab-pane fade in">
+									<div class="row">
+										<div class="col-md-12">
+                                                                                        
+                                                                                                <div class="col-md-6 col-md-push-4 col-lg-4">
+                                                                                                
+                                                                                                        <form method="POST" action="{% url 'login' %}">
+                                                                                                                {% csrf_token %}
+                                                                                                                <div class="form-group">
+                                                                                                                  <label for="userName">User Name</label>
+                                                                                                                  <input type="text" class="form-control" id="userName" placeholder="Enter username" name="username">
+                                                                                                                  
+                                                                                                                </div>
+                                                                                                                <div class="form-group">
+                                                                                                                  <label for="InputPassword1">Password</label>
+                                                                                                                  <input type="password" class="form-control" id="InputPassword" placeholder="Password" name="password">
+                                                                                                                </div>
+                                                                                                                <center><button type="submit" class="primary-btn">Login</button></center>
+                                                                                                              </form>
+                                                                                                </div>
+                                                                                        
+										</div>
+									</div>
+								</div>
+								<!-- /tab2  -->
+
+							</div>
+							<!-- /product tab content  -->
+						</div>
+					</div>
+					<!-- /product tab -->
+                              
+                             
+                        </div>
+                                <!-- /row -->
+                        
+
+                </div>
+                <!-- /SECTION -->
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% endblock %}

@@ -1,0 +1,122 @@
+{% extends "index.html" %}
+{% block content %}
+
+<!-- NAVIGATION -->
+<nav id="navigation">
+        <!-- container -->
+        <div class="container">
+                <!-- responsive-nav -->
+                <div id="responsive-nav">
+                        <!-- NAV -->
+                        <ul class="main-nav nav navbar-nav">
+                                <li class=><a href="{% url 'index' %}">Home</a></li>
+                                <li><a href="{% url 'store' %}">All</a></li>
+                                <li><a href="{% url 'laptops' %}">Laptops</a></li>
+                                <li><a href="{% url 'smartphones' %}">Smartphones</a></li>
+                        </ul>
+                        <!-- /NAV -->
+                </div>
+                <!-- /responsive-nav -->
+        </div>
+        <!-- /container -->
+                {% if messages %}
+                        {% for message in messages %}
+                        <script>
+                                alertify.set('notifier','position', 'top-right');
+                                alertify.success("{{ message }}");
+
+                        </script>   
+                        {% endfor %}
+                {% endif %}
+
+
+<!-- BREADCRUMB -->
+<div id="breadcrumb" class="section">
+        <!-- container -->
+        <div class="container">
+                <!-- row -->
+                <div class="row">
+                        <div class="col-md-12">
+                                <ul class="breadcrumb-tree">
+                                        <li><a href="{% url 'store' %}">Home</a></li>
+                                        <li class="active">Your Wishlist</li>
+                                </ul>
+                        </div>
+                </div>
+                <!-- /row -->
+        </div>
+
+        <!-- /container -->
+</div>
+<!-- /BREADCRUMB -->
+        <!-- SECTION -->
+       
+                <!-- container -->  
+<!-- container -->  
+<div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h2>Your Wishlist</h2>
+                {% if products %}
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover ">
+                            <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Image</th>
+                                    <th>Quantity</th>
+                                    <th>Price</th>
+                                    
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in products %}
+                                    <tr>
+                                        <td>{{ item.name }}</td>
+                                        <td><img src="{{ item.image.url }}" alt="{{ item.name }}" width="50"></td>
+                                        <td>
+                                            <form method="POST" action="{% url 'update_cart' item.id %}">
+                                                {% csrf_token %}
+                                                <input type="number" name="qty" id="quantity-input{{item.id}}" value=1 min="1" max="20" class="form-control">
+                                                <button  data-product_id="{{item.id}}" class="btn add-to-cart-btn btn-primary" style="background-color: #2B2D42  ;">Add to cart</button>
+                                            </form>
+                                        </td>
+                                        <td>${{ item.price }}</td>
+                                        <td>
+                                            <form method="POST" action="{% url 'remove_from_wishlist' item.id %}">
+                                                {% csrf_token %}
+                                                <button type="submit" class="btn btn-danger">Remove</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <form method="post" action="{% url 'clear_wishlist' %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-primary" style="background-color: #D10024;">Clear wishlist</button>
+                    </form>
+                {% else %}
+                    <p>Your wishlist is empty.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <!--container -->
+
+                
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% endblock %}

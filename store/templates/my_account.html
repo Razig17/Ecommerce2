@@ -1,0 +1,114 @@
+{% extends "index.html" %}
+{% block content %}
+
+<!-- NAVIGATION -->
+<nav id="navigation">
+        <!-- container -->
+        <div class="container">
+                <!-- responsive-nav -->
+                <div id="responsive-nav">
+                        <!-- NAV -->
+                        <ul class="main-nav nav navbar-nav">
+                                <li class=><a href="#">Home</a></li>
+                                <li><a href="{% url 'store' %}">All</a></li>
+                                <li><a href="{% url 'laptops' %}">Laptops</a></li>
+                                <li><a href="{% url 'smartphones' %}">Smartphones</a></li>
+                        </ul>
+                        <!-- /NAV -->
+                </div>
+                <!-- /responsive-nav -->
+        </div>
+        <!-- /container -->
+                {% if messages %}
+
+                {% for message in messages %}
+                {% if message.tags == 'success' %}
+                    <div class="alert alert-success" role="alert">
+                        {{ message }}
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                    </div>
+                {% elif message.tags == 'error' %}
+                    <div class="alert alert-danger" role="alert">
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                        {{ message }}
+                    </div>
+                {% endif %}
+            {% endfor %}
+            {% endif %}
+
+<!-- BREADCRUMB -->
+<div id="breadcrumb" class="section">
+        <!-- container -->
+        <div class="container">
+                <!-- row -->
+                <div class="row">
+                        <div class="col-md-12">
+                                <ul class="breadcrumb-tree">
+                                        <li><a href="{% url 'store' %}">Home</a></li>
+                                        <li class="active">My Account</li>
+                                </ul>
+                        </div>
+                </div>
+                <!-- /row -->
+        </div>
+
+        <!-- /container -->
+</div>
+<!-- /BREADCRUMB -->
+        <!-- SECTION -->
+        <div class="section" style="padding-top: 0;">
+                <!-- container -->
+                        <!-- row -->
+                        <div class="row ">
+                                <!-- Product tab -->
+                                <div class="col-md-6 col-md-push-4 col-lg-4 ">
+                                        <form method="POST">
+                                                {% csrf_token %}
+                                                {{ form.as_p }}
+                                    <center><button type="submit" class="primary-btn">Update shipping info</button></center>
+                                  </form>
+                                </div>
+                             
+                        </div>
+                                <!-- /row -->
+                        
+
+                </div>
+                <!-- /SECTION -->
+        <!-- SECTION -->
+        <div class="section" style="padding-top: 0;">
+                <!-- container -->
+                        <!-- row -->
+                        <div class="row ">
+                                <!-- Product tab -->
+                                <div class="col-md-6 col-md-push-4 col-lg-4 ">
+                                        <form method="POST" action="{% url 'update_user' %}">
+                                                {% csrf_token %}
+                                                {{ user_form.as_p }}
+                                    <center><button type="submit" class="primary-btn">Update user info</button></center>
+                                  </form>
+                                </div>
+                             
+                        </div>
+                                <!-- /row -->
+                        
+
+                </div>
+                <!-- /SECTION -->
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% endblock %}

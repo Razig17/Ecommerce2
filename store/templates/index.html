@@ -1,0 +1,317 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		 <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+		<title>Electro</title>
+
+ 		<!-- Google font -->
+ 		<link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700" rel="stylesheet">
+
+ 		<!-- Bootstrap -->
+ 		<link type="text/css" rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+
+                                
+ 		<!-- Font Awesome Icon -->
+ 		<link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
+
+ 		<!-- Custom stlylesheet -->
+ 		<link type="text/css" rel="stylesheet" href="{% static 'css/style.css' %}"/>
+
+                <!-- Jquery-->
+                <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+                <!-- Alertify-->
+                <script src="https://cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+                <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css"/>
+                <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.min.css"/>
+    </head>
+
+	<body>
+		<!-- HEADER -->
+		<header>
+			<!-- TOP HEADER -->
+			<div id="top-header">
+				<div class="container">
+                                        <ul class="header-links pull-right">
+						<li><div style=" color: #FFF"><i class="fa fa-dollar"></i> USD</div></li>
+                                                {% if user.is_authenticated %}
+						<li><a href="{% url 'my_account' %}"><i class="fa fa-user-o"></i> My Account</a></li>
+                                                <li><a href="{% url 'logout' %}"><i class="fa fa-sign-out"></i>Logout</a></li>
+                                                {% else %}
+                                                <li><a href="{% url 'register' %}"><i class="fa fa-sign-in"></i>Login/Register</a></li>
+                                                {% endif %}
+                                                
+					</ul>
+                                </div>
+			</div>
+			<!-- /TOP HEADER -->
+
+			<!-- MAIN HEADER -->
+			<div id="header">
+				<!-- container -->
+				<div class="container">
+					<!-- row -->
+					<div class="row">
+						<!-- LOGO -->
+						<div class="col-md-3">
+							<div class="header-logo">
+								<a href="#" class="logo">
+									<img src="{% static './img/logo.png' %}" alt="">
+								</a>
+							</div>
+						</div>
+						<!-- /LOGO -->
+
+						<!-- SEARCH BAR -->
+						<div class="col-md-6">
+							<div class="header-search">
+								<form action="{% url 'store' %}" method="GET">
+									<select class="input-select" name="category">
+										<option value="0">All Categories</option>
+                                                                                <option value="laptops">Laptops</option>
+                                                                                <option value="smartphones">Smartphones</option>
+									</select>
+
+									<input class="input" name="query" placeholder="Search here" required>
+                                                                        <button type="submit" class="search-btn">Search</button>
+								</form>
+							</div>
+						</div>
+						<!-- /SEARCH BAR -->
+
+						<!-- ACCOUNT -->
+						<div class="col-md-3 clearfix">
+							<div class="header-ctn">
+								<!-- Wishlist -->
+								<div>
+									<a href="{% url 'wishlist' %}">
+										<i class="fa fa-heart-o"></i>
+										<span>Your Wishlist</span>
+										<div class="qty">{{wishlist}}</div>
+									</a>
+								</div>
+								<!-- /Wishlist -->
+
+								<!-- Cart -->
+								<div class="dropdown">
+									<a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
+										<i class="fa fa-shopping-cart"></i>
+										<span>Your Cart</span>
+										<div class="qty qty_cart">
+                                                                                        {% if cart.cart %}
+                                                                                        {{ cart.get_total_items }}
+                                                                                        {% else %}
+                                                                                        0
+                                                                                        {% endif %}
+                                                                                </div>
+									</a>
+									<div class="cart-dropdown">
+										<div class="cart-list">
+											
+										</div>
+										<div class="cart-summary">
+											<small id="qty_small">
+                                                                                        {% if cart.cart %}
+                                                                                                {{ cart.get_total_items }}
+                                                                                                {% else %}
+                                                                                                0
+                                                                                        {% endif %}
+                                                                                                Item(s) selected
+                                                                                                </small>
+											<h5 id="total_price">TOTAL PRICE: $
+                                                                                                {% if cart.cart %}
+                                                                                                {{ cart.get_total_price }}
+                                                                                                {% else %}
+                                                                                                0
+                                                                                        {% endif %}
+
+                                                                                        </h5>
+										</div>
+										<div class="cart-btns">
+											<a href="{% url 'cart' %}">View Cart</a>
+											<a id="checkout_link" href="#">Checkout  <i class="fa fa-arrow-circle-right"></i></a>
+										</div>
+									</div>
+								</div>
+								<!-- /Cart -->
+								<!-- Menu Toogle -->
+								<div class="menu-toggle">
+									<a href="#">
+										<i class="fa fa-bars"></i>
+										<span>Menu</span>
+									</a>
+								</div>
+								<!-- /Menu Toogle -->
+
+                                        
+							</div>
+						</div>
+						<!-- /ACCOUNT -->
+                                                 
+					</div>
+					<!-- row -->
+                                         
+				</div>
+				<!-- container -->
+			</div>
+			<!-- /MAIN HEADER -->
+                         
+		</header>
+		<!-- /HEADER -->
+                 
+                {% block content %}
+                {% endblock %}
+                
+
+		<!-- FOOTER -->
+		<footer id="footer">
+			<!-- top footer -->
+			<div class="section">
+				<!-- container -->
+				<div class="container">
+					<!-- row -->
+					<div class="row">
+						<div class="col-md-3 col-xs-6">
+							<div class="footer">
+								<h3 class="footer-title">About Us</h3>
+								<p>Discover the latest iPhones and MacBooks at Electro your trusted source for genuine Apple products, great prices, and fast shipping.</p>
+								<ul class="footer-links">
+									<li><a href="#"><i class="fa fa-map-marker"></i>Online</a></li>
+									<li><a href="#"><i class="fa fa-envelope-o"></i>abdelrazig.sharif1@gmail.com</a></li>
+                                                                        
+								</ul>
+                                                                
+							</div>
+						</div>
+
+						<div class="col-md-3 col-xs-6">
+							<div class="footer">
+								<h3 class="footer-title">Categories</h3>
+								<ul class="footer-links">
+									<li><a href="{% url 'laptops' %}">Laptops</a></li>
+									<li><a href="{% url 'smartphones' %}">smartphones</a></li>
+
+								</ul>
+							</div>
+						</div>
+
+						<div class="clearfix visible-xs"></div>
+
+						
+
+						<div class="col-md-3 col-xs-6">
+							<div class="footer">
+								<h3 class="footer-title">Service</h3>
+								<ul class="footer-links">
+									<li><a href="{% url 'my_account' %}">My Account</a></li>
+									<li><a href="{% url 'cart' %}">View Cart</a></li>
+									<li><a href="{% url 'wishlist' %}">Wishlist</a></li>
+
+								</ul>
+							</div>
+						</div>
+					</div>
+					<!-- /row -->
+				</div>
+				<!-- /container -->
+			</div>
+			<!-- /top footer -->
+
+			<!-- bottom footer -->
+			<div id="bottom-footer" class="section">
+				<div class="container">
+                                        
+					<!-- row -->
+					<div class="row">
+						<div class="col-md-12 text-center">
+							
+								<div class="icons" style="font-size: 3em;">
+                                                                        <a href="https://www.linkedin.com/in/abdelrazig-sharif/" target="_blank"><i
+                                                                                class="fa fa-linkedin"></i></a>
+                                                                        <a href="https://github.com/RAZIG17/Ecommerce" target="_blank"><i class="fa fa-github"></i></a>
+                                                                        <a href="https://x.com/ABDULRAZAG7" target="_blank"><i class="fa fa-twitter "></i></a>
+                                                                        <a href="https://www.youtube.com/@AbdelrazigSharif" target="_blank"><i class="fa fa-youtube "></i></a>
+                                                                    </div>
+							
+							<span class="copyright">
+								<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+								Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved
+							<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+							</span>
+
+
+						</div>
+					</div>
+						<!-- /row -->
+				</div>
+				<!-- /container -->
+			</div>
+			<!-- /bottom footer -->
+		</footer>
+		<!-- /FOOTER -->
+
+		<!-- jQuery Plugins -->
+		
+		<script src="{% static 'js/bootstrap.min.js' %}"></script>
+		<script src="{% static 'js/main.js' %}"></script>
+                <script>
+                        $('#checkout_link').on('click', function() {
+                        $.ajax({
+                                type: 'GET',
+                                url: '/checkout/',
+                                success: function(data) {
+                                if (data.msg) {
+                                alertify.set('notifier','position', 'top-right');
+                                alertify.error(data.msg);
+                                console.log("empty")
+                                } else {
+                                window.location.href = '/checkout/';
+                                console.log("not empty")
+                                }
+                                },
+                                error: function(data) {
+                                alertify.set('notifier','position', 'top-right');
+                                alertify.error('Error checking out');
+                                }
+                        });
+                        });
+
+                        
+                </script>
+                <script>
+                        $('.add-to-wishlist-btn').on('click',  function(e) {
+                        e.preventDefault();
+                        var product_id = $(this).data('product_id');
+                        var csrf_token = $('input[name="csrfmiddlewaretoken"]').val();
+                        $.ajax({
+                        type: 'POST',
+                        url: '/add_to_wishlist/' + product_id,
+                        data: {
+                                product_id: product_id,
+                                csrfmiddlewaretoken: csrf_token
+                        },
+                        success: function(data) {
+                                alertify.set('notifier','position', 'top-right');
+                                if (data.msg) {
+                                        alertify.success(data.msg);                                                                 
+                                } else if (data.error) {
+                                        alertify.error(data.error);
+                                }
+                                $('.qty').html(data.qty);
+                        },
+                        error: function() {
+                                alertify.set('notifier','position', 'top-right');
+                                alertify.error('Error adding product to cart');
+                        }
+                        });
+                        });
+                </script>
+
+	</body>
+</html>

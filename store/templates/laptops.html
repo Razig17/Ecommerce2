@@ -1,0 +1,93 @@
+{% extends "index.html" %}
+{% block content %}
+
+<!-- NAVIGATION -->
+<nav id="navigation">
+<!-- container -->
+<div class="container">
+        <!-- responsive-nav -->
+        <div id="responsive-nav">
+                <!-- NAV -->
+                <ul class="main-nav nav navbar-nav">
+                        <li ><a href="/">Home</a></li>
+                        <li><a href="/store">All</a></li>
+                        <li class="active"><a href="laptops">Laptops</a></li>
+                        <li ><a href="smartphones">Smartphones</a></li>
+                </ul>
+                <!-- /NAV -->
+        </div>
+        <!-- /responsive-nav -->
+</div>
+<!-- /container -->
+</nav>
+<!-- /NAVIGATION -->
+<!-- SECTION -->
+<div class="section">
+<!-- container -->
+<div class="container">
+        <!-- row -->
+        <div class="row">
+                <!-- STORE -->
+                <div id="store" class="col-md-20">
+
+
+                        <!-- store products -->
+                        <div class="row">
+                                {% for product in products %}
+                                <!-- product -->
+                                <div class="col-md-3 col-xs-6">
+                                        <div class="product">
+                                                        <div class="product-img">
+                                                                <img src="{{ product.image.url }}" alt="">
+                                                                <div class="product-label">
+                                                                </div>
+                                                        </div>
+                                                        <div class="product-body">
+                                                                <p class="product-category">{{product.category}}</p>
+                                                                <h3 class="product-name"><a href="{{product.id}}">{{product.name}}</a></h3>
+                                                                <h4 class="product-price">${{product.price}}</h4>
+                                                                <div class="product-rating">
+                                                                </div>
+                                                                
+                                                                <div class="product-btns">
+                                                                        <a href="{% url 'add_to_wishlist' product.id %}" class="add-to-wishlist-btn" data-product_id="{{product.id}}">
+                                                                        <button class="add-to-wishlist"><i
+                                                                                        class="fa fa-heart-o"></i><span
+                                                                                        class="tooltipp">add to wishlist</a>
+                                                                                        </span></button>
+                                                                        <a href="{{product.id}}">
+                                                                        <button class="quick-view"><i 
+                                                                                class="fa fa-eye"></i><span 
+                                                                                class="tooltipp">view</a>
+                                                                        </span></button>
+                                                                        
+                                                                </div>
+                                                        </div>
+                                                        <div class="add-to-cart">
+                                                                {% csrf_token %}
+                                                                <button class="add-to-cart-btn" data-product_id="{{product.id}}"><i
+                                                                                class="fa fa-shopping-cart"></i> add to
+                                                                        cart</button>
+                                                        </div>
+                                                </div>
+                                        </div>
+                                        <!-- /product -->
+                                        {% endfor %}
+
+                            
+
+                                        
+                                </div>
+                                <!-- /store products -->
+
+
+                        </div>
+                        <!-- /STORE -->
+                </div>
+                <!-- /row -->
+        </div>
+        <!-- /container -->
+</div>
+<!-- /SECTION -->
+
+{% endblock %}

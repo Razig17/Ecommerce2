@@ -1,0 +1,174 @@
+{% extends "index.html" %}
+{% block content %}
+	
+{% if messages %}
+{% for message in messages %}
+<script>
+        alertify.set('notifier','position', 'top-right');
+        alertify.error("{{ message }}");
+</script>
+{% endfor %}
+{% endif %}
+
+{% if error %}
+<div class="alert alert-danger fade in">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        {{ error }}
+      </div>
+{% endif %}
+
+
+		<!-- NAVIGATION -->
+		<nav id="navigation">
+			<!-- container -->
+			<div class="container">
+				<!-- responsive-nav -->
+                                <div id="responsive-nav">
+                                        <!-- NAV -->
+                                        <ul class="main-nav nav navbar-nav">
+                                                <li class=><a href="#">Home</a></li>
+                                                <li><a href="{% url 'store' %}">All</a></li>
+                                                <li><a href="{% url 'laptops' %}">Laptops</a></li>
+                                                <li><a href="{% url 'smartphones' %}">Smartphones</a></li>
+                                        </ul>
+                                        <!-- /NAV -->
+                                </div>
+                                <!-- /responsive-nav -->
+			</div>
+			<!-- /container -->
+		</nav>
+		<!-- /NAVIGATION -->
+
+		<!-- BREADCRUMB -->
+		<div id="breadcrumb" class="section">
+			<!-- container -->
+			<div class="container">
+				<!-- row -->
+				<div class="row">
+					<div class="col-md-12">
+						<h3 class="breadcrumb-header">Checkout</h3>
+						<ul class="breadcrumb-tree">
+							<li><a href="#">Home</a></li>
+							<li class="active">Checkout</li>
+						</ul>
+					</div>
+				</div>
+				<!-- /row -->
+			</div>
+			<!-- /container -->
+		</div>
+		<!-- /BREADCRUMB -->
+
+		<!-- SECTION -->
+		<div class="section">
+			<!-- container -->
+			<div class="container">
+				<!-- row -->
+				<div class="row">
+
+					<div class="col-md-7">
+						<!-- Shpping Details -->
+						<div class="billing-details">
+                                                        
+							<div class="section-title">
+								<h3 class="title">Shiping address</h3>
+							</div>
+                                                        <form method="POST" action="{% url 'checkout' %}" class="checkoutForm">
+                                                                {% csrf_token %}
+                                                                {{ form.as_p }}
+                                                        </form>
+							
+							
+						</div>
+						<!-- Shipping Details -->
+                                                
+						
+
+						
+					</div>
+
+					<!-- Order Details -->
+					<div class="col-md-5 order-details">
+						<div class="section-title text-center">
+							<h3 class="title">Your Order</h3>
+						</div>
+						<div class="order-summary">
+							<div class="order-col">
+								<div><strong>PRODUCT</strong></div>
+								<div><strong>TOTAL</strong></div>
+							</div>
+                                                        
+							<div class="order-products">
+                                                                {% for item_id, item in cart.cart.items %}
+								<div class="order-col">
+									<div>{{ item.quantity }}x {{ item.name }}</div>
+									<div>${{ item.price }}</div>
+								</div>
+								{% endfor %}
+							</div>
+							<div class="order-col">
+								<div>Shiping</div>
+								<div><strong>
+                                                                        FREE
+                                                                </strong></div>
+							</div>
+							<div class="order-col">
+								<div><strong>TOTAL</strong></div>
+								<div><strong class="order-total">${{ cart.get_total_price }}</strong></div>
+							</div>
+						</div>
+						<div class="payment-method">
+							<div class="input-radio">
+								<input type="radio" name="payment" id="payment-1">
+								<label for="payment-1">
+									<span></span>
+									Cash on Delivery
+								</label>
+								<div class="caption">
+									<p>Pay with cash upon delivery.</p>
+								</div>
+							
+							</div>
+						</div>
+						<a href="#" class="primary-btn order-submit">Place order</a>
+					</div>
+					<!-- /Order Details -->
+				</div>
+				<!-- /row -->
+			</div>
+			<!-- /container -->
+		</div>
+		<!-- /SECTION -->
+
+
+                <script>
+                        $(document).ready(function() {
+                            $('.order-submit').on('click', function(e) {
+                                e.preventDefault();
+                                
+                                // Check if the form is filled
+                                var isValid = true;
+                                $('.checkoutForm').find('input, select, textarea').each(function() {
+                                    if ($(this).prop('required')) {
+                                        if (!$(this).val()) {
+                                            isValid = false;
+                                            $(this).addClass('is-invalid'); // Add a class to highlight the empty field
+                                        } else {
+                                            $(this).removeClass('is-invalid'); // Remove the class if the field is filled
+                                        }
+                                    }
+                                });
+                    
+                                if (isValid) {
+                                    $('.checkoutForm').submit();
+                                } else {
+                                        alertify.set('notifier','position', 'top-right');
+                                        alertify.error("Please fill in all required fields.");
+                                    
+                                }
+                            });
+                        });
+                    </script>
+{% endblock %}
+
+

@@ -1,0 +1,126 @@
+{% extends "index.html" %}
+{% block content %}
+
+<!-- NAVIGATION -->
+<nav id="navigation">
+        <!-- container -->
+        <div class="container">
+                <!-- responsive-nav -->
+                <div id="responsive-nav">
+                        <!-- NAV -->
+                        <ul class="main-nav nav navbar-nav">
+                                <li class=><a href="{% url 'index' %}">Home</a></li>
+                                <li><a href="{% url 'store' %}">All</a></li>
+                                <li><a href="{% url 'laptops' %}">Laptops</a></li>
+                                <li><a href="{% url 'smartphones' %}">Smartphones</a></li>
+                        </ul>
+                        <!-- /NAV -->
+                </div>
+                <!-- /responsive-nav -->
+        </div>
+        <!-- /container -->
+                {% if messages %}
+                        {% for message in messages %}
+                        <script>
+                                alertify.set('notifier','position', 'top-right');
+                                alertify.success("{{ message }}");
+
+                        </script>   
+                        {% endfor %}
+                {% endif %}
+
+
+<!-- BREADCRUMB -->
+<div id="breadcrumb" class="section">
+        <!-- container -->
+        <div class="container">
+                <!-- row -->
+                <div class="row">
+                        <div class="col-md-12">
+                                <ul class="breadcrumb-tree">
+                                        <li><a href="{% url 'store' %}">Home</a></li>
+                                        <li class="active">Your Cart</li>
+                                </ul>
+                        </div>
+                </div>
+                <!-- /row -->
+        </div>
+
+        <!-- /container -->
+</div>
+<!-- /BREADCRUMB -->
+        <!-- SECTION -->
+       
+                <!-- container -->  
+<!-- container -->  
+<div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h2>Your Cart</h2>
+                {% if cart.cart %}
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover ">
+                            <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Image</th>
+                                    <th>Quantity</th>
+                                    <th>Price</th>
+                                    
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item_id, item in cart.cart.items %}
+                                    <tr>
+                                        <td>{{ item.name }}</td>
+                                        <td><img src="{{ item.image }}" alt="{{ item.name }}" width="50"></td>
+                                        <td>
+                                            <form method="POST" action="{% url 'update_cart' item.id %}">
+                                                {% csrf_token %}
+                                                <input type="number" name="qty" id="select{{item.id}}" value="{{ item.quantity }}" min="1" max="20" class="form-control">
+                                                <button  data-index="{{item.id}}" class="btn data_update btn-primary" style="background-color: #2B2D42  ;">Update</button>
+                                            </form>
+                                        </td>
+                                        <td>${{ item.price }}</td>
+                                        <td>
+                                            <form method="POST" action="{% url 'remove_from_cart' item.id %}">
+                                                {% csrf_token %}
+                                                <button type="submit" class="btn btn-danger">Remove</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <h3 id="total" >Total: ${{ cart.get_total_price }}</h3>
+                    <form method="POST" action="{% url 'clear_cart' %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-primary" style="background-color: #1E1F29;">Clear Cart</button>
+                    </form>
+                    <form method="GET" action="{% url 'checkout' %}">
+                        <a href="{% url 'checkout' %}"><button class="btn btn-primary" style="background-color: #D10024;">Proceed to Checkout</button></a>
+                    </form>
+                {% else %}
+                    <p>Your cart is empty.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <!--container -->
+
+                
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% endblock %}
